@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 from guardian.shortcuts import assign
 
 from betterversion.better import version_windows, BetterVersion
-from oauth import utils as oauth_utils
+from readthedocs.oauth import utils as oauth_utils
 from privacy.loader import ProjectManager
 from projects import constants
 from projects.exceptions import ProjectImportError
