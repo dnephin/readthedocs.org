@@ -25,3 +25,7 @@ RUN     virtualenv venv && venv/bin/pip install \
             --find-links /rtd/deploy/wheels
 
 ADD     .   /rtd
+
+EXPOSE  8000
+# TODO: use gunicorn
+CMD     venv/bin/python ./manage.py runserver

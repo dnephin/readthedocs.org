@@ -4,8 +4,15 @@
 
 webapp:
     build: .
+    environment:
+        DJANGO_SETTINGS_MODULE: 'webapp_settings'
+    volumes_from:
+        - webappconfigs
     ports:
-        - '8080:8080'
+        - 8000
+
+webappconfigs:
+    build: dev/webapp_config
 
 database:
     build: dev/database

@@ -25,6 +25,7 @@ RUN     /etc/init.d/postgresql start && \
         venv/bin/python ./manage.py migrate projects 0001 && \
         venv/bin/python ./manage.py migrate && \
         venv/bin/python ./create_superuser.py && \
+        venv/bin/python ./manage.py loaddata test_data && \
         /etc/init.d/postgresql stop
 
 ADD     etc/pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
