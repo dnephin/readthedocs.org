@@ -98,7 +98,11 @@ def update_docs(pk, version_pk=None, record=True, docker=False,
         move_files(version, results)
         record_pdf(api=api, record=record, results=results,
                    state='finished', version=version)
-        finish_build(version=version, build=build, results=results)
+        try:
+            finish_build(version=version, build=build, results=results)
+        except:
+            log.error(LOG_TEMPLATE.format(project=version.project.slug,
+                                          version=version.slug, msg="Finish Build Error"), exc_info=True)
 
         if results['html'][0] == 0:
             # Mark version active on the site
@@ -121,6 +125,8 @@ def update_docs(pk, version_pk=None, record=True, docker=False,
         # http://celery.readthedocs.org/en/3.0/userguide/tasks.html#retrying
         # Should completely retry the task for us until max_retries is exceeded
         update_docs.retry(exc=e, throw=False)
+    except ProjectImportError, e:
+        pass
     except Exception, e:
         log.error(LOG_TEMPLATE.format(project=version.project.slug,
                                       version=version.slug, msg="Top-level Build Failure"), exc_info=True)
@@ -289,8 +295,7 @@ def setup_vcs(version, build, api):
             'Failed to import project; skipping build.\n'
             '\nError\n-----\n\n%s' % err.message
         )
-        api.build(build['id']).put(build)
-        return False
+        raise
     return update_output
 
 
@@ -405,8 +410,8 @@ def setup_environment(version):
     wheeldir = os.path.join(settings.SITE_ROOT, 'deploy', 'wheels')
     ret_dict['doc_builder'] = run(
         (
-            '{cmd} install --no-index --use-wheel --find-links={wheeldir} -U {ignore_option} '
-            'sphinx virtualenv setuptools docutils readthedocs-sphinx-ext mkdocs mock'
+            '{cmd} install --use-wheel --find-links={wheeldir} -U {ignore_option} '
+            'sphinx==1.2.2 virtualenv==1.10.1 setuptools==1.1 docutils==0.11 readthedocs-sphinx-ext==0.4.3 mkdocs==0.9 mock==1.0.1 pillow==2.6.1'
         ).format(
             cmd=project.venv_bin(version=version.slug, bin='pip'),
             ignore_option=ignore_option,
@@ -660,8 +665,11 @@ def record_build(api, record, build, results, state):
 
     build['exit_code'] = max([results.get(step, [0])[0] for step in all_steps])
 
-    build['setup'] = build['setup_error'] = ""
-    build['output'] = build['error'] = ""
+    build['setup'] = build.get('setup', '')
+    build['setup_error'] = build.get('setup_error', '')
+
+    build['output'] = build.get('output', '')
+    build['error'] = build.get('error', '')
 
     for step in setup_steps:
         if step in results:

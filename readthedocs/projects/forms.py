@@ -57,14 +57,15 @@ class ImportProjectForm(ProjectForm):
             'name', 'repo', 'repo_type',
             # Not as important
             'description',
-            'language',
             'documentation_type',
+            'language',
             'project_url',
             'canonical_url',
             'tags',
         )
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         super(ImportProjectForm, self).__init__(*args, **kwargs)
         placeholders = {
             'repo': self.placehold_repo(),
@@ -88,8 +89,9 @@ class ImportProjectForm(ProjectForm):
         # save the project
         project = super(ImportProjectForm, self).save(*args, **kwargs)
 
-        # kick off the celery job
-        update_docs.delay(pk=project.pk)
+        if kwargs.get('commit', True):
+            # kick off the celery job
+            update_docs.delay(pk=project.pk)
 
         return project
 
