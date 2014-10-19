@@ -18,3 +18,4 @@ webappconfigs:
 
 database:
     build: dev/database
+

@@ -30,12 +30,11 @@ STATIC_URL = 'https://media.readthedocs.org/static/'
 ADMIN_MEDIA_PREFIX = MEDIA_URL + 'admin/'
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
-# TODO
+# TODO: this is not used for search, but still reference
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://odin:8983/solr',
-    }
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
 }
 
 # TODO
