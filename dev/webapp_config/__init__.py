@@ -17,7 +17,7 @@ LOG_FORMAT = "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s"
 LOGGING['loggers'] = {
     '': {
         'handlers': ['console'],
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
 }
 
@@ -28,20 +28,17 @@ CELERY_ALWAYS_EAGER = False
 MEDIA_URL = 'https://media.readthedocs.org/'
 STATIC_URL = 'https://media.readthedocs.org/static/'
 ADMIN_MEDIA_PREFIX = MEDIA_URL + 'admin/'
-SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
-# TODO: this is not used for search, but still reference
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
-    },
-}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+SESSION_COOKIE_DOMAIN = None
+SESSION_COOKIE_HTTPONLY = False
 
 # TODO
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': 'localhost:6379',
+        'LOCATION': 'redis_1:6379',
         'PREFIX': 'docs',
         'OPTIONS': {
             'DB': 1,
@@ -58,16 +55,25 @@ REDIS = {
 }
 
 
+# TODO: separate redis instance for celery?
+BROKER_URL = 'redis://redis_1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis_1:6379/0'
+
+
 # TODO
 # Elasticsearch settings.
 ES_HOSTS = ['backup:9200', 'db:9200']
 ES_DEFAULT_NUM_REPLICAS = 1
 ES_DEFAULT_NUM_SHARDS = 5
 
-SLUMBER_API_HOST = 'https://readthedocs.org'
-WEBSOCKET_HOST = 'websocket.readthedocs.org:8088'
 
-PRODUCTION_DOMAIN = 'readthedocs.org'
+SLUMBER_USERNAME = 'test'
+SLUMBER_PASSWORD = 'test'
+# TODO
+SLUMBER_API_HOST = 'http://localhost:8080'
+WEBSOCKET_HOST = 'localhost:8088'
+PRODUCTION_DOMAIN = 'localhost:8080'
+
 USE_SUBDOMAIN = True
 NGINX_X_ACCEL_REDIRECT = True
 
@@ -79,8 +85,9 @@ REPO_LOCK_SECONDS = 300
 # Don't re-confirm existing accounts
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-# set GitHub scope
-SOCIALACCOUNT_PROVIDERS = {
-    'github': { 'SCOPE': ['user:email', 'public_repo', 'read:org', 'admin:repo_hook', 'repo:status']}
-}
+# For testing locally.
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+)
+
 

@@ -12,10 +12,16 @@ webapp:
         - 8080:8000
     links:
         - database
+        - redis
 
 webappconfigs:
     build: dev/webapp_config
 
 database:
     build: dev/database
+
+redis:
+    image: redis:latest
+
+
 
