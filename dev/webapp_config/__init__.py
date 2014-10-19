@@ -21,7 +21,7 @@ LOGGING['loggers'] = {
     },
 }
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = False
 CELERY_ALWAYS_EAGER = False
 
@@ -50,6 +50,14 @@ CACHES = {
         },
     },
 }
+
+
+REDIS = {
+    'host': 'redis_1',
+    'port': 6379,
+    'db': 0,
+}
+
 
 # TODO
 # Elasticsearch settings.

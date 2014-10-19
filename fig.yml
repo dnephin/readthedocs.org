@@ -9,7 +9,9 @@ webapp:
     volumes_from:
         - webappconfigs
     ports:
-        - 8000
+        - 8080:8000
+    links:
+        - database
 
 webappconfigs:
     build: dev/webapp_config

@@ -27,5 +27,10 @@ RUN     virtualenv venv && venv/bin/pip install \
 ADD     .   /rtd
 
 EXPOSE  8000
+
+# TODO: why is this setup this way
+ENV     PYTHONPATH  /rtd/
+WORKDIR /rtd/readthedocs
+
 # TODO: use gunicorn
-CMD     venv/bin/python ./manage.py runserver
+CMD     ../venv/bin/python ./manage.py runserver 0.0.0.0:8000
