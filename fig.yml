@@ -14,6 +14,7 @@ webapp:
         - database
         - redis
 
+# TODO: rename since it's not just for webapp anymore
 webappconfigs:
     build: dev/webapp_config
 
@@ -23,5 +24,13 @@ database:
 redis:
     image: redis:latest
 
-
-
+# TODO: run a separate api instance?
+celery:
+    build: dev/celery
+    environment:
+        DJANGO_SETTINGS_MODULE: 'webapp_settings'
+    volumes_from:
+        - webappconfigs
+    links:
+        - redis
+        - webapp

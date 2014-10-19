@@ -70,7 +70,7 @@ ES_DEFAULT_NUM_SHARDS = 5
 SLUMBER_USERNAME = 'test'
 SLUMBER_PASSWORD = 'test'
 # TODO
-SLUMBER_API_HOST = 'http://localhost:8080'
+SLUMBER_API_HOST = 'http://webapp_1:8000'
 WEBSOCKET_HOST = 'localhost:8088'
 PRODUCTION_DOMAIN = 'localhost:8080'
 
@@ -88,6 +88,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 # For testing locally.
 CORS_ORIGIN_WHITELIST = (
     'localhost:8080',
+    'webapp_1:8000',
 )
 
 
