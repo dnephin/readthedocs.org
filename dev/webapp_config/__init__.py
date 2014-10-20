@@ -62,17 +62,16 @@ CELERY_RESULT_BACKEND = 'redis://redis_1:6379/0'
 
 # TODO
 # Elasticsearch settings.
-ES_HOSTS = ['backup:9200', 'db:9200']
+ES_HOSTS = ['search_1:9200']
 ES_DEFAULT_NUM_REPLICAS = 1
 ES_DEFAULT_NUM_SHARDS = 5
 
 
 SLUMBER_USERNAME = 'test'
 SLUMBER_PASSWORD = 'test'
-# TODO
-SLUMBER_API_HOST = 'http://webapp_1:8000'
+SLUMBER_API_HOST = 'http://webapp:8000'
 WEBSOCKET_HOST = 'localhost:8088'
-PRODUCTION_DOMAIN = 'localhost:8080'
+PRODUCTION_DOMAIN = 'webapp:8000'
 
 USE_SUBDOMAIN = True
 NGINX_X_ACCEL_REDIRECT = True

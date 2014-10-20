@@ -13,6 +13,7 @@ webapp:
     links:
         - database
         - redis
+        - search
 
 # TODO: rename since it's not just for webapp anymore
 webappconfigs:
@@ -34,3 +35,7 @@ celery:
     links:
         - redis
         - webapp
+
+# TODO: index fixture projects already in db
+search:
+    build: dev/search
