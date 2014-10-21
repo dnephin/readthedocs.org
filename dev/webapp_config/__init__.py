@@ -25,16 +25,10 @@ DEBUG = True
 TEMPLATE_DEBUG = False
 CELERY_ALWAYS_EAGER = False
 
-MEDIA_URL = 'https://media.readthedocs.org/'
-STATIC_URL = 'https://media.readthedocs.org/static/'
-ADMIN_MEDIA_PREFIX = MEDIA_URL + 'admin/'
-
-
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_COOKIE_DOMAIN = None
 SESSION_COOKIE_HTTPONLY = False
 
-# TODO
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
@@ -55,7 +49,6 @@ REDIS = {
 }
 
 
-# TODO: separate redis instance for celery?
 BROKER_URL = 'redis://redis_1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis_1:6379/0'
 
@@ -64,7 +57,7 @@ CELERY_RESULT_BACKEND = 'redis://redis_1:6379/0'
 # Elasticsearch settings.
 ES_HOSTS = ['search_1:9200']
 ES_DEFAULT_NUM_REPLICAS = 1
-ES_DEFAULT_NUM_SHARDS = 5
+ES_DEFAULT_NUM_SHARDS = 1
 
 
 SLUMBER_USERNAME = 'test'
@@ -73,7 +66,7 @@ SLUMBER_API_HOST = 'http://webapp:8000'
 WEBSOCKET_HOST = 'localhost:8088'
 PRODUCTION_DOMAIN = 'webapp:8000'
 
-USE_SUBDOMAIN = True
+USE_SUBDOMAIN = False
 NGINX_X_ACCEL_REDIRECT = True
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

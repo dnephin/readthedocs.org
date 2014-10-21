@@ -2,12 +2,13 @@
 #
 #
 
+# TODO: needs to share volumes with celery for built docs or use nginx
 webapp:
     build: .
     environment:
         DJANGO_SETTINGS_MODULE: 'webapp_settings'
     volumes_from:
-        - webappconfigs
+        - configs
     ports:
         - 8080:8000
     links:
@@ -15,8 +16,8 @@ webapp:
         - redis
         - search
 
-# TODO: rename since it's not just for webapp anymore
-webappconfigs:
+configs:
+    # TODO: rename since it's not just for webapp anymore
     build: dev/webapp_config
 
 database:
@@ -31,7 +32,7 @@ celery:
     environment:
         DJANGO_SETTINGS_MODULE: 'webapp_settings'
     volumes_from:
-        - webappconfigs
+        - configs
     links:
         - redis
         - webapp
@@ -39,3 +40,14 @@ celery:
 # TODO: index fixture projects already in db
 search:
     build: dev/search
+
+
+#
+# Misc
+#
+dockerui:
+    build: github.com/crosbymichael/dockerui
+    ports:
+        - 8999:9000
+    volumes:
+        - '/var/run/:/var/run'
