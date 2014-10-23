@@ -53,18 +53,15 @@ BROKER_URL = 'redis://redis_1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis_1:6379/0'
 
 
-# TODO
 # Elasticsearch settings.
 ES_HOSTS = ['search_1:9200']
-ES_DEFAULT_NUM_REPLICAS = 1
-ES_DEFAULT_NUM_SHARDS = 1
 
 
 SLUMBER_USERNAME = 'test'
 SLUMBER_PASSWORD = 'test'
 SLUMBER_API_HOST = 'http://webapp:8000'
 WEBSOCKET_HOST = 'localhost:8088'
-PRODUCTION_DOMAIN = 'webapp:8000'
+PRODUCTION_DOMAIN = 'localhost:8080'
 
 USE_SUBDOMAIN = False
 NGINX_X_ACCEL_REDIRECT = True

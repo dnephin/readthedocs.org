@@ -9,6 +9,7 @@ webapp:
         DJANGO_SETTINGS_MODULE: 'webapp_settings'
     volumes_from:
         - configs
+        - projects
     ports:
         - 8080:8000
     links:
@@ -20,12 +21,16 @@ configs:
     # TODO: rename since it's not just for webapp anymore
     build: dev/webapp_config
 
+projects:
+    build: dev/projects
+
 database:
     build: dev/database
 
 redis:
     image: redis:latest
 
+# TODO: rename to build
 # TODO: run a separate api instance?
 celery:
     build: dev/celery
@@ -36,14 +41,16 @@ celery:
     links:
         - redis
         - webapp
+        - projects
 
 # TODO: index fixture projects already in db
 search:
     build: dev/search
+    ports: 
+        - 8081:9200
 
 
 #
-# Misc
 #
 dockerui:
     build: github.com/crosbymichael/dockerui
@@ -51,3 +58,4 @@ dockerui:
         - 8999:9000
     volumes:
         - '/var/run/:/var/run'
+

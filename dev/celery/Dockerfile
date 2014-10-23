@@ -16,5 +16,4 @@ RUN     apt-get install -y \
             texlive-latex-recommended \
             texlive-fonts-recommended
 
-VOLUME  ['/rtd/user_builds']
 CMD     ../venv/bin/python manage.py celery worker -l INFO

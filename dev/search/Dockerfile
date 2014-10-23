@@ -14,11 +14,16 @@ RUN     virtualenv .venv && \
 ADD     elasticsearch.yml /elasticsearch/config/elasticsearch.yml
 
 RUN     /elasticsearch/bin/plugin -install \
-            elasticsearch/elasticsearch-analysis-icu/2.3.0
+            elasticsearch/elasticsearch-analysis-icu/2.3.0 && \
+        /elasticsearch/bin/plugin -install mobz/elasticsearch-head
+
 
 # TODO: deal with copied file indexes.py
 ADD     .   /search
 
+# TODO: make volumes search search index data
+
+# TODO: sleep could be replaced with more of a polling wait for startup
 RUN     /elasticsearch/bin/elasticsearch & \
         sleep 8 && \
         curl -s localhost:9200/_nodes/_all/plugins | python -m json.tool && \
