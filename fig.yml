@@ -44,11 +44,3 @@ search:
     build: dev/search
     ports: 
         - 8081:9200
-
-dockerui:
-    build: github.com/crosbymichael/dockerui
-    ports:
-        - 8999:9000
-    volumes:
-        - '/var/run/:/var/run'
-

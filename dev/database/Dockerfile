@@ -11,8 +11,8 @@ RUN     apt-get update && apt-get install -y \
             postgresql-9.3 \
             postgresql-contrib-9.3
 
-ADD     local_settings.py /rtd/local_settings.py
-ADD     create_superuser.py /rtd/create_superuser.py
+ADD     local_settings.py /rtd/readthedocs/local_settings.py
+ADD     create_superuser.py /rtd/readthedocs/create_superuser.py
 
 USER    postgres
 
@@ -21,11 +21,11 @@ USER    postgres
 RUN     /etc/init.d/postgresql start && \
         psql --command "CREATE USER docs WITH SUPERUSER PASSWORD 'password';" && \
         createdb docs && \
-        venv/bin/python ./manage.py syncdb --noinput && \
-        venv/bin/python ./manage.py migrate projects 0001 && \
-        venv/bin/python ./manage.py migrate && \
-        venv/bin/python ./create_superuser.py && \
-        venv/bin/python ./manage.py loaddata test_data && \
+        ../venv/bin/python ./manage.py syncdb --noinput && \
+        ../venv/bin/python ./manage.py migrate projects 0001 && \
+        ../venv/bin/python ./manage.py migrate && \
+        ../venv/bin/python ./create_superuser.py && \
+        ../venv/bin/python ./manage.py loaddata test_data && \
         /etc/init.d/postgresql stop
 
 ADD     etc/pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
