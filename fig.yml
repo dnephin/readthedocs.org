@@ -2,7 +2,6 @@
 #
 #
 
-# TODO: needs to share volumes with celery for built docs or use nginx
 webapp:
     build: .
     environment:
@@ -19,8 +18,7 @@ webapp:
         - search
 
 configs:
-    # TODO: rename since it's not just for webapp anymore
-    build: dev/webapp_config
+    build: dev/configs
 
 database:
     build: dev/database
@@ -28,10 +26,8 @@ database:
 redis:
     image: redis:latest
 
-# TODO: rename to build
-# TODO: run a separate api instance?
-celery:
-    build: dev/celery
+builder:
+    build: dev/builder
     environment:
         DJANGO_SETTINGS_MODULE: 'webapp_settings'
     volumes_from:
@@ -41,6 +37,7 @@ celery:
     links:
         - redis
         - webapp
+        - database # see github.com/rtfd/readthedocs.org/issues/987
 
 # TODO: index fixture projects already in db
 search:
@@ -48,9 +45,6 @@ search:
     ports: 
         - 8081:9200
 
-
-#
-#
 dockerui:
     build: github.com/crosbymichael/dockerui
     ports:
