@@ -21,7 +21,7 @@ configs:
     build: dev/configs
 
 database:
-    build: dev/database
+    build: factory/dist/database
 
 redis:
     image: redis:latest

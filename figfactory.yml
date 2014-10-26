@@ -1,0 +1,14 @@
+
+
+schemas:
+    build: .
+    command: bash /build/build_database.sh
+    volumes:
+        - './factory/src/database/runner:/build'
+        - './factory/src/database/config:/rtd/readthedocs/db_factory_settings'
+        - './factory/dist/database:/target'
+    links:
+        - database
+
+database:
+    image: postgres:9.3
