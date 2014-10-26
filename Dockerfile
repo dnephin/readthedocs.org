@@ -25,6 +25,8 @@ RUN     virtualenv venv && venv/bin/pip install \
             --find-links /rtd/deploy/wheels
 
 ADD     .   /rtd
+RUN     mkdir /rtd/user_builds
+RUN     mkdir /rtd/readthedocs/webapp_settings/
 
 EXPOSE  8000
 
