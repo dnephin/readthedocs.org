@@ -1,7 +1,8 @@
-#
-#
-#
 
+
+#
+# main application
+#
 webapp:
     build: .
     environment:
@@ -17,17 +18,37 @@ webapp:
         - redis
         - search
 
+#
+# data volume container with a dev version of django settings
+#
 configs:
-    build: dev/configs
+    build: dockerfiles/configs
 
+#
+# database for the webapp
+#
 database:
-    build: dev/database
+    build: dockerfiles/database
 
+#
+# task queue broker, and cache
+#
 redis:
     image: redis:latest
 
+#
+# search index for documentation and projects
+#
+search:
+    build: readthedocs/search
+    ports: 
+        - 8081:9200
+
+#
+# task workers for building documentation
+#
 builder:
-    build: dev/builder
+    build: dockerfiles/builder
     environment:
         DJANGO_SETTINGS_MODULE: 'webapp_settings'
     volumes_from:
@@ -39,8 +60,3 @@ builder:
         - webapp
         - database # see github.com/rtfd/readthedocs.org/issues/987
 
-# TODO: index fixture projects already in db
-search:
-    build: dev/search
-    ports: 
-        - 8081:9200

@@ -7,9 +7,8 @@ RUN     apt-get update && apt-get install -y \
             python-pip
 
 WORKDIR /search
-ADD     requirements.txt   /search/requirements.txt
 RUN     virtualenv .venv && \
-        .venv/bin/pip install -r requirements.txt
+        .venv/bin/pip install elasticsearch==0.4.3
 
 ADD     elasticsearch.yml /elasticsearch/config/elasticsearch.yml
 
@@ -18,10 +17,7 @@ RUN     /elasticsearch/bin/plugin -install \
         /elasticsearch/bin/plugin -install mobz/elasticsearch-head
 
 
-# TODO: deal with copied file indexes.py
 ADD     .   /search
-
-# TODO: make volumes search search index data
 
 # TODO: sleep could be replaced with more of a polling wait for startup
 RUN     /elasticsearch/bin/elasticsearch & \

@@ -1,5 +1,0 @@
-django==1.6.6
-elasticsearch==0.4.3
-#pyelasticsearch==0.7.1
-#pyquery==1.2.2
-

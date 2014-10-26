@@ -28,7 +28,6 @@ ADD     .   /rtd
 
 EXPOSE  8000
 
-# TODO: why are all the python imports relative?
 ENV     PYTHONPATH  /rtd/
 WORKDIR /rtd/readthedocs
 
