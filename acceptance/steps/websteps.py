@@ -13,4 +13,4 @@ def step_impl(context):
     assert context.response.status_code == 200
     page = pq(context.response.text)
     builds = page("li.module-item div[id^=build-]")
-    assert len(builds) > 5
+    assert len(builds) > 1
